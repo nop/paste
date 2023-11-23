@@ -1,6 +1,6 @@
 use std::net::SocketAddr;
 
-use axum::Router;
+use axum::{routing::get, Router};
 use tower_http::services::ServeFile;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -14,7 +14,9 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let routes_all = Router::new().merge(routes_static());
+    let routes_all = Router::new()
+        .route_service("/", ServeFile::new("./paste.1.txt"))
+        .nest("/static", routes_static());
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     tracing::debug!("listening on {}", addr);
@@ -25,5 +27,5 @@ async fn main() {
 }
 
 fn routes_static() -> Router {
-    Router::new().nest_service("/", ServeFile::new("./paste.1.txt"))
+    Router::new().route("/hello", get(|| async { "Hello, World!" }))
 }
