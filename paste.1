@@ -3,11 +3,25 @@
 .TH paste 1 "$DATE" "paste $VERSION" "paste"
 .SH NAME
 paste \- pastebin service inspired by ix.io and 0x0.st
-.\" .SH SYNOPSIS
+.SH SYNOPSIS
+POST paste.local/ (with text in body)
+
+GET paste.local/$PASTE_ID
 .SH DESCRIPTION
-.\" Use HTTP POST to upload text to this site.
-This site is a work in progress. Currently, no functionality is implemented.
-.\" .SH EXAMPLES
+This site is a work in progress.
+.SH EXAMPLES
+Show this usage information:
+
+    curl paste.local/
+
+Get a paste:
+
+    curl paste.local/$PASTE_ID
+
+Create a new paste:
+
+    curl --data-binary 'Hello, World!' paste.local/
+    curl --data-binary @file.txt paste.local/
 .SH AUTHOR
 James Box (james@jbox.dev)
 .SH SEE ALSO
